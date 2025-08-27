@@ -6,4 +6,16 @@ before_install:
   - docker build -t mkondala/docker-react -f Dockerfile.dev .
 
 script:
-   - docker run mkondala/docker-react npm run test -- --coverage
+  - docker run mkondala/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'us-east-1'
+  app: 'docker'
+  env: 'Docker-env'
+  bucket_name: 'elasticbeanstalk-us-east-1-646523381716'
+  bucket_path: 'docker'
+  on:
+    branch: master
+  access_key: $AWS_ACCESS_KEY
+  secret_key: $AWS_SECRET_KEY
